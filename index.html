@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <div class="demo-banner" id="demo-banner" hidden>Demo-Modus – noch nicht mit Supabase verbunden. Daten bleiben nur in diesem Browser. Admin-Passwort: <b>demo</b></div>
@@ -22,6 +22,7 @@
     <nav>
       <a href="#start" data-nav="start">Server</a>
       <a href="#team" data-nav="team">Team</a>
+      <a href="#creator" data-nav="creator">Creator</a>
       <a href="#bewerben" data-nav="bewerben">Bewerben</a>
       <a href="#chat" data-nav="chat" id="nav-chat" hidden>Meine Bewerbung</a>
     </nav>
@@ -76,6 +77,11 @@
             <span class="role role-builder">Builder</span>
           </article>
         </div>
+      <div class="section-head">
+        <h2>Unsere Creator</h2>
+        <a href="#creator">Alle ansehen →</a>
+      </div>
+      <div class="creator-grid" data-limit="6"></div>
       <div class="card steps-info">
         <h2>So läuft die Bewerbung</h2>
         <ol>
@@ -111,6 +117,16 @@
           </article>
         </div>
       <div class="team-cta"><a class="btn btn-gold" href="#bewerben">Jetzt bewerben</a></div>
+    </section>
+
+    <!-- ================================================= Creator -->
+    <section class="view" data-view="creator" hidden>
+      <div class="team-intro">
+        <h1>Unsere Creator</h1>
+        <p>Diese Creator spielen auf dem Twin SMP. Schau bei ihnen vorbei!</p>
+      </div>
+      <div class="creator-grid"></div>
+      <div class="team-cta"><a class="btn btn-gold" href="#bewerben">Selbst bewerben</a></div>
     </section>
 
     <!-- ================================================= Bewerbung -->
@@ -298,7 +314,7 @@
   </footer>
 
   <div class="toast" id="toast" role="status" hidden></div>
-  <script src="config.js?v=5"></script>
-  <script type="module" src="app.js?v=5"></script>
+  <script src="config.js?v=6"></script>
+  <script type="module" src="app.js?v=6"></script>
 </body>
 </html>

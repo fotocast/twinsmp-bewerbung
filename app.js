@@ -285,6 +285,7 @@ async function main() {
     if (!DISCORD) setupAdmin();
   }
   setupChat();
+  loadCreators();
   window.addEventListener("hashchange", route);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) route(); });
   route();
@@ -307,12 +308,47 @@ function route() {
     history.replaceState(null, "", "#chat");
     return route();
   }
-  let view = ["start", "team", "bewerben", "chat", "admin", "danke"].includes(hash) ? hash : "start";
+  let view = ["start", "team", "creator", "bewerben", "chat", "admin", "danke"].includes(hash) ? hash : "start";
   if (DISCORD && (view === "chat" || view === "admin")) view = "start";
   showView(view);
   if (view === "chat") openChat();
   if (view === "admin") openAdmin();
   window.scrollTo({ top: 0 });
+}
+
+// ----------------------------------------------------------------------- Creator
+
+const CREATOR_LINK = /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be|twitch\.tv)\/\S+$/i;
+
+/** creators.json traegt der Discord-Bot beim Annehmen ein. */
+async function loadCreators() {
+  let list = [];
+  try {
+    const res = await fetch(`creators.json?t=${Date.now()}`, { cache: "no-store" });
+    if (res.ok) list = await res.json();
+  } catch { /* offline oder Datei fehlt */ }
+  list = (Array.isArray(list) ? list : [])
+    .filter((c) => c && /^[A-Za-z0-9_]{3,16}$/.test(c.name || "") && CREATOR_LINK.test(c.link || ""))
+    .sort((a, b) => String(b.added || "").localeCompare(String(a.added || "")));
+  for (const grid of $$(".creator-grid")) {
+    const limit = Number(grid.dataset.limit) || Infinity;
+    grid.replaceChildren();
+    if (!list.length) {
+      grid.append(h("div", { class: "card creator-empty" },
+        h("p", {}, "Noch keine Creator – vielleicht bist du der Erste?"),
+        h("a", { class: "btn btn-gold btn-small", href: "#bewerben" }, "Bewerben")));
+      continue;
+    }
+    for (const c of list.slice(0, limit)) {
+      const twitch = /twitch\.tv/i.test(c.link);
+      const id = /^[0-9a-f]{32}$/i.test(c.uuid || "") ? c.uuid : c.name;
+      grid.append(h("article", { class: "card member creator" },
+        h("img", { class: "avatar", src: `https://mc-heads.net/avatar/${encodeURIComponent(id)}/128`, alt: `Minecraft-Kopf von ${c.name}`, width: 128, height: 128, loading: "lazy" }),
+        h("h3", {}, c.name),
+        h("span", { class: `role ${twitch ? "role-twitch" : "role-youtube"}` }, twitch ? "Twitch" : "YouTube"),
+        h("a", { class: "btn btn-ghost btn-small", href: c.link, target: "_blank", rel: "noopener noreferrer" }, "Zum Kanal")));
+    }
+  }
 }
 
 // ----------------------------------------------------------------------- Formular

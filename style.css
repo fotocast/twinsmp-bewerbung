@@ -223,6 +223,7 @@ input.invalid, select.invalid, textarea.invalid, .chips.invalid { border-color: 
 .answers dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .empty-state { max-width: 560px; margin: 0 auto; text-align: center; }
 .empty-state p { color: var(--muted); }
+.invite-hint { background: var(--field); border: 2px solid var(--line); padding: .8rem 1rem; text-align: left; color: var(--text) !important; margin: 1rem 0 1.4rem; }
 
 /* ---------------------------------------------------------------- Admin */
 .login-card { max-width: 420px; margin: 0 auto; }

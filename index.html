@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <div class="demo-banner" id="demo-banner" hidden>Demo-Modus – noch nicht mit Supabase verbunden. Daten bleiben nur in diesem Browser. Admin-Passwort: <b>demo</b></div>
@@ -217,8 +217,12 @@
     <section class="view" data-view="danke" hidden>
       <div class="card empty-state">
         <h2>Bewerbung gesendet!</h2>
-        <p>Danke dir! Das Team schaut sich deine Bewerbung an und meldet sich per Discord oder E-Mail bei dir. Achte darauf, dass du Freundschaftsanfragen bzw. DMs annehmen kannst.</p>
-        <a class="btn btn-ghost" href="#team">Zum Team</a>
+        <p>Danke dir! Das Team schaut sich deine Bewerbung an.</p>
+        <p class="invite-hint"><b>Wichtig:</b> Tritt unserem Discord bei – dort schreibt dich unser Bot direkt an und hält dich über deine Bewerbung auf dem Laufenden. Ohne Beitritt erreichen wir dich nur per E-Mail.</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold discord-invite" href="#" target="_blank" rel="noopener">Discord beitreten</a>
+          <a class="btn btn-ghost" href="#team">Zum Team</a>
+        </div>
       </div>
     </section>
 
@@ -289,12 +293,12 @@
   </main>
 
   <footer class="footer">
-    <span>Twin SMP · Minecraft Java 1.21.11</span>
+    <span>Twin SMP · Minecraft Java 1.21.11 · <a class="discord-invite" href="#" target="_blank" rel="noopener">Discord</a></span>
     <a href="#admin" class="only-chat">Team-Login</a>
   </footer>
 
   <div class="toast" id="toast" role="status" hidden></div>
-  <script src="config.js?v=4"></script>
-  <script type="module" src="app.js?v=4"></script>
+  <script src="config.js?v=5"></script>
+  <script type="module" src="app.js?v=5"></script>
 </body>
 </html>

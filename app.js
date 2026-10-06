@@ -260,6 +260,10 @@ const LOCAL = ["localhost", "127.0.0.1", ""].includes(location.hostname);
 const CLOSED = !LIVE && !DISCORD && !LOCAL;
 
 async function main() {
+  for (const a of $$(".discord-invite")) {
+    if (CFG.discordInvite) a.href = CFG.discordInvite;
+    else a.hidden = true;
+  }
   document.body.dataset.mode = DISCORD ? "discord" : LIVE ? "chat" : "demo";
   $("#demo-banner").hidden = LIVE || DISCORD;
   if (CLOSED) {

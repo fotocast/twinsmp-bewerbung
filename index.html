@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
   <div class="demo-banner" id="demo-banner" hidden>Demo-Modus – noch nicht mit Supabase verbunden. Daten bleiben nur in diesem Browser. Admin-Passwort: <b>demo</b></div>
@@ -21,6 +21,7 @@
     </a>
     <nav>
       <a href="#start" data-nav="start">Server</a>
+      <a href="#team" data-nav="team">Team</a>
       <a href="#bewerben" data-nav="bewerben">Bewerben</a>
       <a href="#chat" data-nav="chat" id="nav-chat" hidden>Meine Bewerbung</a>
     </nav>
@@ -54,6 +55,27 @@
           <p>Ein seltenes Item, das dir einmalig zeigt, wer sich wirklich hinter einem Gesicht versteckt.</p>
         </article>
       </div>
+      <div class="section-head">
+        <h2>Das Team</h2>
+        <a href="#team">Alle ansehen →</a>
+      </div>
+      <div class="team-grid">
+          <article class="card member">
+            <img class="avatar" src="assets/team/fotocast_mc.png" alt="Minecraft-Kopf von fotocast_mc" width="128" height="128" loading="lazy">
+            <h3>fotocast_mc</h3>
+            <span class="role role-owner">Owner</span>
+          </article>
+          <article class="card member">
+            <img class="avatar" src="assets/team/dr_joshi.png" alt="Minecraft-Kopf von Dr_Joshi" width="128" height="128" loading="lazy">
+            <h3>Dr_Joshi</h3>
+            <span class="role role-builder">Builder</span>
+          </article>
+          <article class="card member">
+            <img class="avatar" src="assets/team/jocontrol.png" alt="Minecraft-Kopf von JoControl" width="128" height="128" loading="lazy">
+            <h3>JoControl</h3>
+            <span class="role role-builder">Builder</span>
+          </article>
+        </div>
       <div class="card steps-info">
         <h2>So läuft die Bewerbung</h2>
         <ol>
@@ -62,6 +84,32 @@
           <li><b>Freischaltung</b> – bei Zusage bekommst du die Server-Adresse.</li>
         </ol>
       </div>
+    </section>
+
+    <!-- ================================================= Team -->
+    <section class="view" data-view="team" hidden>
+      <div class="team-intro">
+        <h1>Das Team</h1>
+        <p>Diese Leute halten das Twin SMP am Laufen. Fragen zur Bewerbung? Schreib uns einfach im Chat nach dem Absenden.</p>
+      </div>
+      <div class="team-grid">
+          <article class="card member">
+            <img class="avatar" src="assets/team/fotocast_mc.png" alt="Minecraft-Kopf von fotocast_mc" width="128" height="128" loading="lazy">
+            <h3>fotocast_mc</h3>
+            <span class="role role-owner">Owner</span>
+          </article>
+          <article class="card member">
+            <img class="avatar" src="assets/team/dr_joshi.png" alt="Minecraft-Kopf von Dr_Joshi" width="128" height="128" loading="lazy">
+            <h3>Dr_Joshi</h3>
+            <span class="role role-builder">Builder</span>
+          </article>
+          <article class="card member">
+            <img class="avatar" src="assets/team/jocontrol.png" alt="Minecraft-Kopf von JoControl" width="128" height="128" loading="lazy">
+            <h3>JoControl</h3>
+            <span class="role role-builder">Builder</span>
+          </article>
+        </div>
+      <div class="team-cta"><a class="btn btn-gold" href="#bewerben">Jetzt bewerben</a></div>
     </section>
 
     <!-- ================================================= Bewerbung -->
@@ -230,11 +278,11 @@
 
   <footer class="footer">
     <span>Twin SMP · Minecraft Java 1.21.11</span>
-    <a href="#admin">Team</a>
+    <a href="#admin">Team-Login</a>
   </footer>
 
   <div class="toast" id="toast" role="status" hidden></div>
-  <script src="config.js"></script>
-  <script type="module" src="app.js"></script>
+  <script src="config.js?v=2"></script>
+  <script type="module" src="app.js?v=2"></script>
 </body>
 </html>

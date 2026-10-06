@@ -253,7 +253,7 @@ function route() {
     history.replaceState(null, "", "#chat");
     return route();
   }
-  const view = ["start", "bewerben", "chat", "admin"].includes(hash) ? hash : "start";
+  const view = ["start", "team", "bewerben", "chat", "admin"].includes(hash) ? hash : "start";
   showView(view);
   if (view === "chat") openChat();
   if (view === "admin") openAdmin();

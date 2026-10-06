@@ -124,6 +124,10 @@ main { flex: 1; width: 100%; max-width: 1180px; margin: 0 auto; padding: clamp(2
 .steps-info ol { margin: .4rem 0 0; padding-left: 1.3rem; display: grid; gap: .4rem; }
 .steps-info li::marker { color: var(--gold); font-family: var(--font-pixel); }
 
+/* ---------------------------------------------------------------- Modus */
+body[data-mode="discord"] .only-chat, body:not([data-mode="discord"]) .only-discord { display: none !important; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
 /* ---------------------------------------------------------------- Team */
 .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 8px 0 16px; }
 .section-head h2 { margin: 0; }

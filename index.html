@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <div class="demo-banner" id="demo-banner" hidden>Demo-Modus – noch nicht mit Supabase verbunden. Daten bleiben nur in diesem Browser. Admin-Passwort: <b>demo</b></div>
@@ -80,7 +80,8 @@
         <h2>So läuft die Bewerbung</h2>
         <ol>
           <li><b>Bogen ausfüllen</b> – ein paar kurze Fragen, ohne Anmeldung.</li>
-          <li><b>Chatten</b> – direkt hier auf der Seite mit dem Team.</li>
+          <li class="only-chat"><b>Chatten</b> – direkt hier auf der Seite mit dem Team.</li>
+          <li class="only-discord"><b>Antwort bekommen</b> – wir melden uns per Discord oder E-Mail bei dir.</li>
           <li><b>Freischaltung</b> – bei Zusage bekommst du die Server-Adresse.</li>
         </ol>
       </div>
@@ -90,7 +91,7 @@
     <section class="view" data-view="team" hidden>
       <div class="team-intro">
         <h1>Das Team</h1>
-        <p>Diese Leute halten das Twin SMP am Laufen. Fragen zur Bewerbung? Schreib uns einfach im Chat nach dem Absenden.</p>
+        <p>Diese Leute halten das Twin SMP am Laufen. Bewirb dich – wir melden uns bei dir.</p>
       </div>
       <div class="team-grid">
           <article class="card member">
@@ -121,6 +122,8 @@
           <span class="step-dot" data-dot="3">3</span>
         </div>
         <form id="apply-form" novalidate>
+          <!-- Falle fuer Bots: fuer Menschen unsichtbar -->
+          <div class="hp" aria-hidden="true"><label>Webseite <input name="website" tabindex="-1" autocomplete="off"></label></div>
           <!-- Schritt 1 -->
           <fieldset data-step="1">
             <legend>Über dich</legend>
@@ -196,7 +199,7 @@
               <textarea name="pvp" rows="4" maxlength="1500" required></textarea>
             </label>
             <label>Möchtest du dem Team noch etwas sagen?
-              <textarea name="first_message" rows="3" maxlength="2000" placeholder="Optional – das ist deine erste Chat-Nachricht."></textarea>
+              <textarea name="first_message" rows="3" maxlength="2000" placeholder="Optional"></textarea>
             </label>
           </fieldset>
 
@@ -207,6 +210,15 @@
             <button type="submit" class="btn btn-gold" id="btn-submit" hidden>Bewerbung absenden</button>
           </div>
         </form>
+      </div>
+    </section>
+
+    <!-- ================================================= Danke (Discord-Modus) -->
+    <section class="view" data-view="danke" hidden>
+      <div class="card empty-state">
+        <h2>Bewerbung gesendet!</h2>
+        <p>Danke dir! Das Team schaut sich deine Bewerbung an und meldet sich per Discord oder E-Mail bei dir. Achte darauf, dass du Freundschaftsanfragen bzw. DMs annehmen kannst.</p>
+        <a class="btn btn-ghost" href="#team">Zum Team</a>
       </div>
     </section>
 
@@ -278,11 +290,11 @@
 
   <footer class="footer">
     <span>Twin SMP · Minecraft Java 1.21.11</span>
-    <a href="#admin">Team-Login</a>
+    <a href="#admin" class="only-chat">Team-Login</a>
   </footer>
 
   <div class="toast" id="toast" role="status" hidden></div>
-  <script src="config.js?v=2"></script>
-  <script type="module" src="app.js?v=2"></script>
+  <script src="config.js?v=3"></script>
+  <script type="module" src="app.js?v=3"></script>
 </body>
 </html>

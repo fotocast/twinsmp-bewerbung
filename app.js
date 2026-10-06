@@ -2,7 +2,8 @@
 // Backend: Supabase (siehe supabase/schema.sql) oder Demo-Modus im Browser, wenn config.js leer ist.
 
 const CFG = window.TWIN_CONFIG || {};
-const LIVE = Boolean(CFG.supabaseUrl && CFG.supabaseAnonKey);
+const DISCORD = Boolean(CFG.discordWebhook);
+const LIVE = !DISCORD && Boolean(CFG.supabaseUrl && CFG.supabaseAnonKey);
 const POLL_MS = 4000;
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -112,6 +113,54 @@ async function liveApi() {
   };
 }
 
+/** Discord-Backend: schickt die Bewerbung als Embed an einen Webhook. Kein Chat, kein Admin-Bereich. */
+function discordApi() {
+  const COOLDOWN_KEY = "twin-last-application";
+  const COOLDOWN_MS = 10 * 60 * 1000;
+  const cut = (v, n = 1024) => { const s = String(v ?? "").trim() || "–"; return s.length > n ? s.slice(0, n - 1) + "…" : s; };
+  return {
+    async submit(d) {
+      let last = 0;
+      try { last = Number(localStorage.getItem(COOLDOWN_KEY)) || 0; } catch { /* egal */ }
+      if (Date.now() - last < COOLDOWN_MS) throw new Error("Du hast dich gerade schon beworben. Bitte warte ein paar Minuten.");
+      const a = d.answers;
+      const fields = [
+        ["Minecraft", d.mc_name, true],
+        ["Discord", d.discord, true],
+        ["E-Mail", d.email, true],
+        [LABELS.alter, a.alter, true],
+        [LABELS.spielzeit, a.spielzeit, true],
+        [LABELS.discord_aktiv, a.discord_aktiv, true],
+        [LABELS.spielstil, (a.spielstil || []).join(", "), true],
+        ["Edition / Version", [a.edition, a.version].filter(Boolean).join(" "), true],
+        ["\u200b", "\u200b", true],
+        [LABELS.verrat, a.verrat, false],
+        [LABELS.pvp, a.pvp, false],
+      ];
+      if (d.first_message) fields.push(["Nachricht", d.first_message, false]);
+      const body = {
+        username: "Twin SMP Bewerbungen",
+        avatar_url: new URL("assets/favicon.png", location.href).href,
+        allowed_mentions: { parse: [] }, // keine @everyone/@here-Pings aus Eingaben
+        embeds: [{
+          title: cut(`Neue Bewerbung: ${d.mc_name}`, 256),
+          color: 0xf3c851,
+          thumbnail: { url: `https://mc-heads.net/avatar/${encodeURIComponent(d.mc_name)}/64` },
+          fields: fields.map(([name, value, inline]) => ({ name, value: cut(value), inline })),
+          footer: { text: "Twin SMP · Bewerbungsseite" },
+          timestamp: new Date().toISOString(),
+        }],
+      };
+      const res = await fetch(CFG.discordWebhook + "?wait=true", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error("Senden fehlgeschlagen. Bitte versuch es später noch einmal.");
+      try { localStorage.setItem(COOLDOWN_KEY, String(Date.now())); } catch { /* egal */ }
+      return null;
+    },
+  };
+}
+
 /** Demo-Backend: alles in localStorage dieses Browsers. Admin-Passwort "demo". */
 function demoApi() {
   const KEY = "twin-demo-db";
@@ -208,10 +257,11 @@ let pollTimer = null;
 
 const LOCAL = ["localhost", "127.0.0.1", ""].includes(location.hostname);
 /** Oeffentlich ohne Supabase: nichts annehmen, was verloren ginge. */
-const CLOSED = !LIVE && !LOCAL;
+const CLOSED = !LIVE && !DISCORD && !LOCAL;
 
 async function main() {
-  $("#demo-banner").hidden = LIVE;
+  document.body.dataset.mode = DISCORD ? "discord" : LIVE ? "chat" : "demo";
+  $("#demo-banner").hidden = LIVE || DISCORD;
   if (CLOSED) {
     $("#demo-banner").textContent = "Die Bewerbung wird gerade eingerichtet – schau bald wieder vorbei!";
     $("#apply-form").replaceChildren(h("p", {}, "Bewerbungen sind in Kürze möglich. Die Seite wird gerade eingerichtet."));
@@ -219,7 +269,7 @@ async function main() {
     $("#login-form").replaceChildren(h("p", { class: "muted" }, "Noch nicht eingerichtet."));
   }
   try {
-    api = LIVE ? await liveApi() : demoApi();
+    api = DISCORD ? discordApi() : LIVE ? await liveApi() : demoApi();
   } catch (e) {
     console.error(e);
     api = demoApi();
@@ -228,7 +278,7 @@ async function main() {
   }
   if (!CLOSED) {
     setupForm();
-    setupAdmin();
+    if (!DISCORD) setupAdmin();
   }
   setupChat();
   window.addEventListener("hashchange", route);
@@ -239,7 +289,7 @@ async function main() {
 function showView(name) {
   for (const v of $$(".view")) v.hidden = v.dataset.view !== name;
   for (const a of $$("[data-nav]")) a.classList.toggle("active", a.dataset.nav === name);
-  const has = Boolean(getCreds());
+  const has = !DISCORD && Boolean(getCreds());
   $("#nav-chat").hidden = !has;
   $("#hero-chat").hidden = !has;
 }
@@ -253,7 +303,8 @@ function route() {
     history.replaceState(null, "", "#chat");
     return route();
   }
-  const view = ["start", "team", "bewerben", "chat", "admin"].includes(hash) ? hash : "start";
+  let view = ["start", "team", "bewerben", "chat", "admin", "danke"].includes(hash) ? hash : "start";
+  if (DISCORD && (view === "chat" || view === "admin")) view = "start";
   showView(view);
   if (view === "chat") openChat();
   if (view === "admin") openAdmin();
@@ -322,9 +373,16 @@ function setupForm() {
   $("#btn-next").addEventListener("click", () => { if (check(step)) show(step + 1); });
   $("#btn-back").addEventListener("click", () => show(step - 1));
 
+  const openedAt = Date.now();
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!check(3)) return;
+    if (val("website")) return; // Bot-Falle ausgefuellt
+    if (Date.now() - openedAt < 8000) {
+      errBox.hidden = false;
+      errBox.textContent = "Das ging sehr schnell – bitte prüf deine Antworten und schick sie dann nochmal ab.";
+      return;
+    }
     const btn = $("#btn-submit");
     btn.disabled = true;
     btn.textContent = "Wird gesendet …";
@@ -342,13 +400,17 @@ function setupForm() {
       const creds = await api.submit({
         mc_name: val("mc_name"), discord: val("discord"), email: val("email"), answers, first_message: val("first_message"),
       });
-      setCreds(creds);
+      if (creds) setCreds(creds);
       form.reset();
       $$(".invalid", document).forEach((x) => x.classList.remove("invalid"));
       $$("#playstyle .chip").forEach((c) => c.classList.remove("active"));
       show(1);
-      location.hash = "#chat";
-      toast("Bewerbung gesendet! Speichere dir den Link rechts.");
+      if (DISCORD) {
+        location.hash = "#danke";
+      } else {
+        location.hash = "#chat";
+        toast("Bewerbung gesendet! Speichere dir den Link rechts.");
+      }
     } catch (err) {
       errBox.hidden = false;
       errBox.textContent = err.message;

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Twin SMP – Bewerbung</title>
+  <meta name="description" content="Bewirb dich für das Twin SMP – den Minecraft-Server, auf dem du nie weißt, wer vor dir steht.">
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="demo-banner" id="demo-banner" hidden>Demo-Modus – noch nicht mit Supabase verbunden. Daten bleiben nur in diesem Browser. Admin-Passwort: <b>demo</b></div>
+
+  <header class="topbar">
+    <a class="brand" href="#start" aria-label="Twin SMP Startseite">
+      <img src="assets/favicon.png" alt="" width="32" height="32">
+      <span>Twin SMP</span>
+    </a>
+    <nav>
+      <a href="#start" data-nav="start">Server</a>
+      <a href="#bewerben" data-nav="bewerben">Bewerben</a>
+      <a href="#chat" data-nav="chat" id="nav-chat" hidden>Meine Bewerbung</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ================================================= Start -->
+    <section class="view" data-view="start">
+      <div class="hero">
+        <img class="hero-logo" src="assets/logo.png" alt="Twin SMP" width="448" height="254">
+        <p class="hero-claim">Der Minecraft-Server, auf dem du nie weißt, <em>wer wirklich vor dir steht.</em></p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="#bewerben">Jetzt bewerben</a>
+          <a class="btn btn-ghost" href="#chat" id="hero-chat" hidden>Zu meiner Bewerbung</a>
+        </div>
+      </div>
+      <div class="features">
+        <article class="card feature">
+          <div class="feature-icon" aria-hidden="true">◆</div>
+          <h3>Masken</h3>
+          <p>Besiege einen Spieler und du bekommst seine Maske. Setz sie auf und lauf mit seinem Skin herum.</p>
+        </article>
+        <article class="card feature">
+          <div class="feature-icon" aria-hidden="true">✦</div>
+          <h3>Entlarven</h3>
+          <p>Wer einen Maskierten besiegt, entlarvt ihn – und erbeutet die Maske, die er gerade trägt.</p>
+        </article>
+        <article class="card feature">
+          <div class="feature-icon" aria-hidden="true">◉</div>
+          <h3>Spiegel</h3>
+          <p>Ein seltenes Item, das dir einmalig zeigt, wer sich wirklich hinter einem Gesicht versteckt.</p>
+        </article>
+      </div>
+      <div class="card steps-info">
+        <h2>So läuft die Bewerbung</h2>
+        <ol>
+          <li><b>Bogen ausfüllen</b> – ein paar kurze Fragen, ohne Anmeldung.</li>
+          <li><b>Chatten</b> – direkt hier auf der Seite mit dem Team.</li>
+          <li><b>Freischaltung</b> – bei Zusage bekommst du die Server-Adresse.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================================================= Bewerbung -->
+    <section class="view" data-view="bewerben" hidden>
+      <div class="card form-card">
+        <div class="stepper" aria-hidden="true">
+          <span class="step-dot" data-dot="1">1</span><i></i>
+          <span class="step-dot" data-dot="2">2</span><i></i>
+          <span class="step-dot" data-dot="3">3</span>
+        </div>
+        <form id="apply-form" novalidate>
+          <!-- Schritt 1 -->
+          <fieldset data-step="1">
+            <legend>Über dich</legend>
+            <label><span class="lt">Minecraft-Name <span class="req">*</span></span>
+              <input name="mc_name" autocomplete="nickname" maxlength="16" placeholder="z. B. Steve_123" required>
+            </label>
+            <div class="row">
+              <label>Discord-Name
+                <input name="discord" maxlength="64" placeholder="z. B. steve.mc">
+              </label>
+              <label>E-Mail
+                <input name="email" type="email" maxlength="254" placeholder="du@beispiel.de">
+              </label>
+            </div>
+            <p class="hint">Gib mindestens eins von beiden an, damit wir dich erreichen können.</p>
+            <label><span class="lt">Alter <span class="req">*</span></span>
+              <input name="alter" type="number" min="6" max="99" inputmode="numeric" required>
+            </label>
+          </fieldset>
+
+          <!-- Schritt 2 -->
+          <fieldset data-step="2" hidden>
+            <legend>Wie du spielst</legend>
+            <label><span class="lt">Wie viele Stunden pro Woche kannst du spielen? <span class="req">*</span></span>
+              <select name="spielzeit" required>
+                <option value="">Bitte wählen</option>
+                <option>unter 5 Stunden</option>
+                <option>5–10 Stunden</option>
+                <option>10–20 Stunden</option>
+                <option>mehr als 20 Stunden</option>
+              </select>
+            </label>
+            <label><span class="lt">Bist du auf Discord aktiv? <span class="req">*</span></span>
+              <select name="discord_aktiv" required>
+                <option value="">Bitte wählen</option>
+                <option>Ja, mit Mikrofon</option>
+                <option>Ja, aber ohne Mikrofon</option>
+                <option>Eher selten</option>
+                <option>Nein</option>
+              </select>
+            </label>
+            <div class="label-like"><span class="lt">Was machst du am liebsten? <span class="req">*</span></span>
+              <div class="chips" id="playstyle">
+                <button type="button" class="chip" data-value="Bauen">Bauen</button>
+                <button type="button" class="chip" data-value="PvP">PvP</button>
+                <button type="button" class="chip" data-value="Redstone">Redstone</button>
+                <button type="button" class="chip" data-value="Farmen">Farmen</button>
+                <button type="button" class="chip" data-value="Erkunden">Erkunden</button>
+                <button type="button" class="chip" data-value="Handeln">Handeln</button>
+              </div>
+            </div>
+            <div class="row">
+              <label><span class="lt">Edition <span class="req">*</span></span>
+                <select name="edition" required>
+                  <option value="">Bitte wählen</option>
+                  <option>Java</option>
+                  <option>Bedrock</option>
+                </select>
+              </label>
+              <label>Version
+                <input name="version" maxlength="20" placeholder="z. B. 1.21.11">
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Schritt 3 -->
+          <fieldset data-step="3" hidden>
+            <legend>Ein paar Situationen</legend>
+            <label><span class="lt">Jemand trägt deine Maske, gewinnt dein Vertrauen und legt dich rein. Was machst du? <span class="req">*</span></span>
+              <textarea name="verrat" rows="4" maxlength="1500" required></textarea>
+            </label>
+            <label><span class="lt">Wie stehst du zu PvP und Kämpfen zwischen Spielern? <span class="req">*</span></span>
+              <textarea name="pvp" rows="4" maxlength="1500" required></textarea>
+            </label>
+            <label>Möchtest du dem Team noch etwas sagen?
+              <textarea name="first_message" rows="3" maxlength="2000" placeholder="Optional – das ist deine erste Chat-Nachricht."></textarea>
+            </label>
+          </fieldset>
+
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <div class="form-nav">
+            <button type="button" class="btn btn-ghost" id="btn-back" hidden>Zurück</button>
+            <button type="button" class="btn btn-gold" id="btn-next">Weiter</button>
+            <button type="submit" class="btn btn-gold" id="btn-submit" hidden>Bewerbung absenden</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ================================================= Chat (Bewerber) -->
+    <section class="view" data-view="chat" hidden>
+      <div class="chat-layout">
+        <div class="card chat-card">
+          <div class="chat-head">
+            <div>
+              <h2 id="chat-title">Deine Bewerbung</h2>
+              <span class="status" id="chat-status"></span>
+            </div>
+            <button class="btn btn-ghost btn-small" id="btn-copy-link" type="button">Link kopieren</button>
+          </div>
+          <div class="messages" id="chat-messages" aria-live="polite"></div>
+          <form class="composer" id="chat-form">
+            <textarea id="chat-input" rows="1" maxlength="2000" placeholder="Nachricht an das Team …" aria-label="Nachricht"></textarea>
+            <button class="btn btn-gold" type="submit">Senden</button>
+          </form>
+        </div>
+        <aside class="card side-card">
+          <h3>Wichtig</h3>
+          <p>Mit diesem Link kommst du jederzeit zu deinem Chat zurück. Er funktioniert auch auf anderen Geräten – gib ihn nicht weiter.</p>
+          <code class="secret-link" id="secret-link"></code>
+          <h3>Deine Antworten</h3>
+          <dl class="answers" id="chat-answers"></dl>
+        </aside>
+      </div>
+      <div class="card empty-state" id="chat-empty" hidden>
+        <h2>Keine Bewerbung gefunden</h2>
+        <p>Auf diesem Gerät ist keine Bewerbung gespeichert. Öffne den Link, den du nach dem Absenden bekommen hast – oder bewirb dich neu.</p>
+        <a class="btn btn-gold" href="#bewerben">Bewerben</a>
+      </div>
+    </section>
+
+    <!-- ================================================= Admin -->
+    <section class="view" data-view="admin" hidden>
+      <div class="card login-card" id="admin-login">
+        <h2>Team-Bereich</h2>
+        <form id="login-form">
+          <label>Admin-Passwort
+            <input type="password" id="admin-password" autocomplete="current-password" required>
+          </label>
+          <p class="form-error" id="login-error" role="alert" hidden></p>
+          <button class="btn btn-gold" type="submit">Einloggen</button>
+        </form>
+      </div>
+      <div class="admin" id="admin-panel" hidden>
+        <aside class="card admin-list">
+          <div class="admin-list-head">
+            <h2>Bewerbungen</h2>
+            <button class="btn btn-ghost btn-small" id="btn-logout" type="button">Logout</button>
+          </div>
+          <div class="filters" id="filters">
+            <button class="chip active" data-filter="alle">Alle</button>
+            <button class="chip" data-filter="neu">Neu</button>
+            <button class="chip" data-filter="in_pruefung">In Prüfung</button>
+            <button class="chip" data-filter="angenommen">Angenommen</button>
+            <button class="chip" data-filter="abgelehnt">Abgelehnt</button>
+          </div>
+          <ul class="app-list" id="app-list"></ul>
+        </aside>
+        <div class="card admin-detail" id="admin-detail">
+          <p class="muted">Wähle links eine Bewerbung aus.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Twin SMP · Minecraft Java 1.21.11</span>
+    <a href="#admin">Team</a>
+  </footer>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script src="config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

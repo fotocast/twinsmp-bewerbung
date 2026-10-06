@@ -342,8 +342,11 @@ async function loadCreators() {
     for (const c of list.slice(0, limit)) {
       const twitch = /twitch\.tv/i.test(c.link);
       const id = /^[0-9a-f]{32}$/i.test(c.uuid || "") ? c.uuid : c.name;
+      // Zuerst der eigene, aktuelle Kopf aus assets/team (Team-Mitglieder), sonst mc-heads.net
+      const img = h("img", { class: "avatar", src: `assets/team/${c.name.toLowerCase()}.png?v=2`, alt: `Minecraft-Kopf von ${c.name}`, width: 128, height: 128, loading: "lazy" });
+      img.addEventListener("error", () => { img.src = `https://mc-heads.net/avatar/${encodeURIComponent(id)}/128`; }, { once: true });
       grid.append(h("article", { class: "card member creator" },
-        h("img", { class: "avatar", src: `https://mc-heads.net/avatar/${encodeURIComponent(id)}/128`, alt: `Minecraft-Kopf von ${c.name}`, width: 128, height: 128, loading: "lazy" }),
+        img,
         h("h3", {}, c.name),
         h("span", { class: `role ${twitch ? "role-twitch" : "role-youtube"}` }, twitch ? "Twitch" : "YouTube"),
         h("a", { class: "btn btn-ghost btn-small", href: c.link, target: "_blank", rel: "noopener noreferrer" }, "Zum Kanal")));

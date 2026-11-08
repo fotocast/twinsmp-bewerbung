@@ -52,7 +52,17 @@
     "uuid": "893121cb56a54334b36ca15d0cb5ae6d",
     "platform": "youtube",
     "link": "https://www.youtube.com/@LetsFoox",
-    "added": "2026-11-06T19:00:33.072081Z"
+    "added": "2026-11-06T19:00:33.072081Z",
+    "links": [
+      {
+        "platform": "youtube",
+        "link": "https://www.youtube.com/@LetsFoox"
+      },
+      {
+        "platform": "twitch",
+        "link": "https://www.twitch.tv/letsfoox"
+      }
+    ]
   },
   {
     "name": "Zero_152",

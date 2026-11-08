@@ -2,6 +2,10 @@
 // Backend: Supabase (siehe supabase/schema.sql) oder Demo-Modus im Browser, wenn config.js leer ist.
 
 const CFG = window.TWIN_CONFIG || {};
+// Kodierter Webhook (siehe config.js): rückwärts + Base64
+if (!CFG.discordWebhook && CFG.discordWebhookEnc) {
+  try { CFG.discordWebhook = atob(CFG.discordWebhookEnc).split("").reverse().join(""); } catch { /* ungültig */ }
+}
 const DISCORD = Boolean(CFG.discordWebhook);
 const LIVE = !DISCORD && Boolean(CFG.supabaseUrl && CFG.supabaseAnonKey);
 const POLL_MS = 4000;

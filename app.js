@@ -128,6 +128,8 @@ function discordApi() {
         ["Minecraft", d.mc_name, true],
         ["Discord", d.discord, true],
         ["E-Mail", d.email, true],
+        ...(d.youtube ? [["YouTube", d.youtube, true]] : []),
+        ...(d.twitch ? [["Twitch", d.twitch, true]] : []),
         [LABELS.alter, a.alter, true],
         [LABELS.spielzeit, a.spielzeit, true],
         [LABELS.discord_aktiv, a.discord_aktiv, true],
@@ -318,6 +320,21 @@ function route() {
 
 // ----------------------------------------------------------------------- Creator
 
+/** Macht aus "@kanal", "kanal" oder einem Link einen sauberen Kanal-Link; "" wenn leer oder ungueltig. */
+function socialUrl(platform, raw) {
+  const s = String(raw || "").trim().replace(/^https?:\/\//i, "").replace(/^(www\.|m\.)/i, "");
+  if (!s) return "";
+  let m;
+  if (platform === "twitch") {
+    if ((m = s.match(/^twitch\.tv\/([A-Za-z0-9_]{2,25})(?:[/?#].*)?$/i))) return `https://twitch.tv/${m[1]}`;
+    if (/^@?[A-Za-z0-9_]{2,25}$/.test(s)) return `https://twitch.tv/${s.replace(/^@/, "")}`;
+    return "";
+  }
+  if ((m = s.match(/^youtube\.com\/(@[\w.\-]{2,40}|channel\/UC[\w-]{22}|c\/[\w.\-]+|user\/[\w.\-]+)(?:[/?#].*)?$/i))) return `https://youtube.com/${m[1]}`;
+  if (/^@?[\w.\-]{2,40}$/.test(s)) return `https://youtube.com/@${s.replace(/^@/, "")}`;
+  return "";
+}
+
 const CREATOR_LINK = /^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be|twitch\.tv)\/\S+$/i;
 
 /** creators.json traegt der Discord-Bot beim Annehmen ein. */
@@ -340,7 +357,10 @@ async function loadCreators() {
       continue;
     }
     for (const c of list.slice(0, limit)) {
-      const twitch = /twitch\.tv/i.test(c.link);
+      const links = (Array.isArray(c.links) ? c.links : [])
+        .filter((l) => l && CREATOR_LINK.test(l.link || ""))
+        .map((l) => ({ link: l.link, twitch: /twitch\.tv/i.test(l.link) }));
+      if (!links.length) links.push({ link: c.link, twitch: /twitch\.tv/i.test(c.link) });
       const id = /^[0-9a-f]{32}$/i.test(c.uuid || "") ? c.uuid : c.name;
       // Zuerst der eigene, aktuelle Kopf aus assets/team (Team-Mitglieder), sonst mc-heads.net
       const img = h("img", { class: "avatar", src: `assets/team/${c.name.toLowerCase()}.png?v=2`, alt: `Minecraft-Kopf von ${c.name}`, width: 128, height: 128, loading: "lazy" });
@@ -348,8 +368,9 @@ async function loadCreators() {
       grid.append(h("article", { class: "card member creator" },
         img,
         h("h3", {}, c.name),
-        h("span", { class: `role ${twitch ? "role-twitch" : "role-youtube"}` }, twitch ? "Twitch" : "YouTube"),
-        h("a", { class: "btn btn-ghost btn-small", href: c.link, target: "_blank", rel: "noopener noreferrer" }, "Zum Kanal")));
+        h("div", { class: "creator-links" }, links.map((l) => h("span", { class: `role ${l.twitch ? "role-twitch" : "role-youtube"}` }, l.twitch ? "Twitch" : "YouTube"))),
+        h("div", { class: "creator-links" }, links.map((l) => h("a", { class: "btn btn-ghost btn-small", href: l.link, target: "_blank", rel: "noopener noreferrer" },
+          links.length > 1 ? (l.twitch ? "Twitch-Kanal" : "YouTube-Kanal") : "Zum Kanal")))));
     }
   }
 }
@@ -378,6 +399,8 @@ function setupForm() {
     if (s === 1) {
       if (!/^[A-Za-z0-9_]{3,16}$/.test(val("mc_name"))) mark("mc_name", "Minecraft-Name: 3–16 Zeichen, nur Buchstaben, Zahlen und _.");
       if (!val("discord") && !val("email")) { mark("discord"); mark("email", "Gib deinen Discord-Namen oder deine E-Mail an."); }
+      if (val("youtube") && !socialUrl("youtube", val("youtube"))) mark("youtube", "YouTube: Bitte gib den Link oder @Namen deines Kanals an (kein einzelnes Video).");
+      if (val("twitch") && !socialUrl("twitch", val("twitch"))) mark("twitch", "Twitch: Bitte gib deinen Twitch-Namen oder -Link an.");
       if (val("email") && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val("email"))) mark("email", "Die E-Mail-Adresse sieht nicht richtig aus.");
       const a = Number(val("alter"));
       if (!val("alter") || !Number.isInteger(a) || a < 6 || a > 99) mark("alter", "Bitte gib dein Alter an.");
@@ -441,7 +464,8 @@ function setupForm() {
         pvp: val("pvp"),
       };
       const creds = await api.submit({
-        mc_name: val("mc_name"), discord: val("discord"), email: val("email"), answers, first_message: val("first_message"),
+        mc_name: val("mc_name"), discord: val("discord"), email: val("email"),
+        youtube: socialUrl("youtube", val("youtube")), twitch: socialUrl("twitch", val("twitch")), answers, first_message: val("first_message"),
       });
       if (creds) setCreds(creds);
       form.reset();

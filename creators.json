@@ -40,5 +40,22 @@
     "platform": "youtube",
     "link": "https://youtube.com/@Zero_152",
     "added": "2026-11-06T22:30:31.915505Z"
+  },
+  {
+    "name": "ButterflyCreeper",
+    "uuid": "fd86a9e7f3a34dbb9191cb3e91b8af70",
+    "platform": "youtube",
+    "link": "https://www.youtube.com/@ButterflyCreeper",
+    "links": [
+      {
+        "platform": "youtube",
+        "link": "https://www.youtube.com/@ButterflyCreeper"
+      },
+      {
+        "platform": "twitch",
+        "link": "https://www.twitch.tv/butterflycreepertv"
+      }
+    ],
+    "added": "2026-11-08T13:27:17.304997Z"
   }
 ]

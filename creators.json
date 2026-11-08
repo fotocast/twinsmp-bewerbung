@@ -69,7 +69,17 @@
     "uuid": "6ceaaaac070d423b8d5b01a22e446bb8",
     "platform": "youtube",
     "link": "https://youtube.com/@Zero_152",
-    "added": "2026-11-06T22:30:31.915505Z"
+    "added": "2026-11-06T22:30:31.915505Z",
+    "links": [
+      {
+        "platform": "youtube",
+        "link": "https://youtube.com/@Zero_152"
+      },
+      {
+        "platform": "twitch",
+        "link": "https://www.twitch.tv/xxzero_152xx"
+      }
+    ]
   },
   {
     "name": "ButterflyCreeper",

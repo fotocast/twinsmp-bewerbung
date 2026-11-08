@@ -21,7 +21,17 @@
     "uuid": "356e55ffad1f4d1ca949045a17319de2",
     "platform": "youtube",
     "link": "https://m.youtube.com/@nicothemodcrafter",
-    "added": "2026-10-06T12:21:01.261293Z"
+    "added": "2026-10-06T12:21:01.261293Z",
+    "links": [
+      {
+        "platform": "youtube",
+        "link": "https://m.youtube.com/@nicothemodcrafter"
+      },
+      {
+        "platform": "twitch",
+        "link": "https://www.twitch.tv/nico_creates"
+      }
+    ]
   },
   {
     "name": "Dr_Joshi",

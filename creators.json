@@ -45,7 +45,17 @@
     "uuid": "4b0fe64f84d04e29aa1857e13af105fe",
     "platform": "youtube",
     "link": "https://YouTube.com/@xxjocontrolxx",
-    "added": "2026-10-06T12:40:36.301689Z"
+    "added": "2026-10-06T12:40:36.301689Z",
+    "links": [
+      {
+        "platform": "youtube",
+        "link": "https://YouTube.com/@xxjocontrolxx"
+      },
+      {
+        "platform": "twitch",
+        "link": "https://www.twitch.tv/xxjocontroxx"
+      }
+    ]
   },
   {
     "name": "ItsFoox",

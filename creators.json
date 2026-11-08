@@ -117,5 +117,18 @@
       }
     ],
     "added": "2026-11-08T13:27:17.304997Z"
+  },
+  {
+    "name": "McAffe13",
+    "uuid": "ca82c64011854c4f850bf90050a47684",
+    "links": [
+      {
+        "platform": "twitch",
+        "link": "https://twitch.tv/mcaffe13"
+      }
+    ],
+    "platform": "twitch",
+    "link": "https://twitch.tv/mcaffe13",
+    "added": "2026-11-08T17:00:02.221202Z"
   }
 ]

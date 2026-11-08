@@ -150,6 +150,8 @@ body[data-mode="discord"] .only-chat, body:not([data-mode="discord"]) .only-disc
 .role-builder { background: var(--jade); color: #06110c; box-shadow: inset 0 -3px 0 var(--jade-3); }
 .creator-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-bottom: 32px; }
 .creator-grid .member .btn { margin-top: .3rem; }
+.btn-youtube { color: #fff; background: #e0302b; box-shadow: inset 0 -4px 0 #9e1d19, inset 0 var(--px) 0 rgba(255, 255, 255, .15), 4px 4px 0 var(--line); }
+.btn-twitch { color: #fff; background: #9146ff; box-shadow: inset 0 -4px 0 #5c2bb0, inset 0 var(--px) 0 rgba(255, 255, 255, .15), 4px 4px 0 var(--line); }
 .creator-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; }
 .creator-empty { grid-column: 1 / -1; text-align: center; display: grid; justify-items: center; gap: .6rem; }
 .creator-empty p { margin: 0; color: var(--muted); }

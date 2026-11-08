@@ -368,9 +368,10 @@ async function loadCreators() {
       grid.append(h("article", { class: "card member creator" },
         img,
         h("h3", {}, c.name),
-        h("div", { class: "creator-links" }, links.map((l) => h("span", { class: `role ${l.twitch ? "role-twitch" : "role-youtube"}` }, l.twitch ? "Twitch" : "YouTube"))),
-        h("div", { class: "creator-links" }, links.map((l) => h("a", { class: "btn btn-ghost btn-small", href: l.link, target: "_blank", rel: "noopener noreferrer" },
-          links.length > 1 ? (l.twitch ? "Twitch-Kanal" : "YouTube-Kanal") : "Zum Kanal")))));
+        h("div", { class: "creator-links" }, links.map((l) => h("a", {
+          class: `btn btn-small btn-${l.twitch ? "twitch" : "youtube"}`, href: l.link, target: "_blank", rel: "noopener noreferrer",
+          "aria-label": `${l.twitch ? "Twitch" : "YouTube"}-Kanal von ${c.name}`,
+        }, l.twitch ? "Twitch" : "YouTube")))));
     }
   }
 }

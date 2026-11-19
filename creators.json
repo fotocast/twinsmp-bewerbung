@@ -160,5 +160,18 @@
     "platform": "youtube",
     "link": "https://youtube.com/@EinCreeperkopf",
     "added": "2026-11-09T21:14:34.132162Z"
+  },
+  {
+    "name": "Wild_AleXXX",
+    "uuid": "da13bae295a549d68cd57d9d0eb96daa",
+    "links": [
+      {
+        "platform": "twitch",
+        "link": "https://twitch.tv/Tub4Alex"
+      }
+    ],
+    "platform": "twitch",
+    "link": "https://twitch.tv/Tub4Alex",
+    "added": "2026-11-19T11:22:01.957403Z"
   }
 ]

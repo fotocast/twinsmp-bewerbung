@@ -173,5 +173,18 @@
     "platform": "twitch",
     "link": "https://twitch.tv/Tub4Alex",
     "added": "2026-11-19T11:22:01.957403Z"
+  },
+  {
+    "name": "LOLXXX11",
+    "uuid": "eb4b51b9f41641e9ab483c4b868c82ee",
+    "links": [
+      {
+        "platform": "youtube",
+        "link": "https://www.youtube.com/@MrBeast"
+      }
+    ],
+    "platform": "youtube",
+    "link": "https://www.youtube.com/@MrBeast",
+    "added": "2026-11-19T14:47:40.873923Z"
   }
 ]

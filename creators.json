@@ -186,5 +186,18 @@
     "platform": "youtube",
     "link": "https://www.youtube.com/@MrBeast",
     "added": "2026-11-19T14:47:40.873923Z"
+  },
+  {
+    "name": "Lqzu",
+    "uuid": "75348ef9745f41e6ade1e3f119c4b03f",
+    "links": [
+      {
+        "platform": "youtube",
+        "link": "https://youtube.com/@mrbeast"
+      }
+    ],
+    "platform": "youtube",
+    "link": "https://youtube.com/@mrbeast",
+    "added": "2026-11-20T12:09:28.703058Z"
   }
 ]

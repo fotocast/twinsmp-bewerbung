@@ -305,6 +305,15 @@ function showView(name) {
   $("#hero-chat").hidden = !has;
 }
 
+/** Traegt die Anschrift aus config.js (impressum: {name, street, city, email}) ein; leer = Platzhalter bleibt stehen. */
+function fillImpressum() {
+  const imp = (window.TWIN_CONFIG && window.TWIN_CONFIG.impressum) || {};
+  for (const el of $$("[data-imp]")) {
+    const v = String(imp[el.dataset.imp] || "").trim();
+    if (v) el.textContent = v;
+  }
+}
+
 function route() {
   clearInterval(pollTimer);
   const hash = location.hash.replace(/^#/, "") || "start";
@@ -314,9 +323,10 @@ function route() {
     history.replaceState(null, "", "#chat");
     return route();
   }
-  let view = ["start", "team", "creator", "bewerben", "chat", "admin", "danke"].includes(hash) ? hash : "start";
+  let view = ["start", "team", "creator", "bewerben", "chat", "admin", "danke", "impressum"].includes(hash) ? hash : "start";
   if (DISCORD && (view === "chat" || view === "admin")) view = "start";
   showView(view);
+  if (view === "impressum") fillImpressum();
   if (view === "chat") openChat();
   if (view === "admin") openAdmin();
   window.scrollTo({ top: 0 });

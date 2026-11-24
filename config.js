@@ -11,5 +11,7 @@ window.TWIN_CONFIG = {
   supabaseAnonKey: "",
   adminEmail: "",          // E-Mail des Admin-Kontos in Supabase (auf der Seite wird nur das Passwort abgefragt)
   discordInvite: "https://discord.gg/M9KbfPg3w2",
+  // Impressum: Angaben (Anschrift fehlt bewusst, kann als street/city ergaenzt werden).
+  impressum: { name: "Liam Pott", email: "fotocast@outlook.de" },
   serverAddress: "stamina-smc.tun.ply.gg",
 };

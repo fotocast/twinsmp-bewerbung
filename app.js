@@ -360,7 +360,7 @@ async function loadCreators() {
   } catch { /* offline oder Datei fehlt */ }
   list = (Array.isArray(list) ? list : [])
     .filter((c) => c && /^[A-Za-z0-9_]{3,16}$/.test(c.name || "") && CREATOR_LINK.test(c.link || ""))
-    .sort((a, b) => String(b.added || "").localeCompare(String(a.added || "")));
+    .sort((a, b) => String(a.added || "").localeCompare(String(b.added || "")));
   for (const grid of $$(".creator-grid")) {
     const limit = Number(grid.dataset.limit) || Infinity;
     grid.replaceChildren();
